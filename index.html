@@ -3,276 +3,286 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ScholarPath — Scholarship Awareness Platform</title>
-  <meta name="description" content="Discover government and private scholarships on one unified platform. Browse, search, filter, and track deadlines easily." />
+  <title>StudyHub — Scholarships & Study Buddy</title>
+  <meta name="description" content="Browse government & private scholarships, plan your studies, track tasks, and prepare documents — all in one modern student platform." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 </head>
 <body>
-
-  <!-- ===================== NAVBAR ===================== -->
-  <nav class="navbar" id="navbar">
+  <!-- ════════════════════ NAVBAR ════════════════════ -->
+  <nav id="navbar" class="navbar">
     <div class="nav-container">
       <a href="#" class="nav-logo">
         <span class="logo-icon">🎓</span>
-        <span class="logo-text">Scholar<span class="logo-accent">Path</span></span>
+        <span class="logo-text">Study<span class="logo-accent">Hub</span></span>
       </a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#home" class="nav-link active">Home</a></li>
-        <li><a href="#scholarships" class="nav-link">Scholarships</a></li>
-        <li><a href="#guidance" class="nav-link">Guidance</a></li>
+        <li><a href="#scholarships" class="nav-link active">Scholarships</a></li>
+        <li><a href="#planner" class="nav-link">Task Planner</a></li>
         <li><a href="#documents" class="nav-link">Documents</a></li>
       </ul>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
 
-  <!-- ===================== HERO ===================== -->
-  <section class="hero" id="home">
+  <!-- ════════════════════ HERO ════════════════════ -->
+  <header id="hero" class="hero">
     <div class="hero-bg-shapes">
       <div class="shape shape-1"></div>
       <div class="shape shape-2"></div>
       <div class="shape shape-3"></div>
     </div>
     <div class="hero-content">
-      <span class="hero-badge">🚀 Your Future Starts Here</span>
-      <h1 class="hero-title">Find the <span class="highlight">Perfect Scholarship</span> for Your Dreams</h1>
-      <p class="hero-subtitle">Browse government & private scholarships in one place. Search, filter, and never miss a deadline again.</p>
+      <span class="hero-badge">🚀 Your Academic Journey Starts Here</span>
+      <h1>Find Scholarships.<br/>Plan Studies.<br/><span class="hero-highlight">Achieve More.</span></h1>
+      <p class="hero-sub">One platform to discover scholarships, track tasks, and prepare your applications — all for free.</p>
       <div class="hero-actions">
-        <a href="#scholarships" class="btn btn-primary">Explore Scholarships</a>
-        <a href="#guidance" class="btn btn-secondary">How to Apply</a>
+        <a href="#scholarships" class="btn btn-primary btn-lg">Explore Scholarships</a>
+        <a href="#planner" class="btn btn-outline btn-lg">Start Planning</a>
       </div>
       <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-number" id="statTotal">0</span>
-          <span class="stat-label">Scholarships</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-number" id="statGov">0</span>
-          <span class="stat-label">Government</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-number" id="statPrivate">0</span>
-          <span class="stat-label">Private</span>
-        </div>
+        <div class="stat"><span class="stat-num" id="statScholarships">0</span><span class="stat-label">Scholarships</span></div>
+        <div class="stat"><span class="stat-num" id="statGov">0</span><span class="stat-label">Government</span></div>
+        <div class="stat"><span class="stat-num" id="statPrivate">0</span><span class="stat-label">Private</span></div>
       </div>
     </div>
-  </section>
+  </header>
 
-  <!-- ===================== SCHOLARSHIPS ===================== -->
-  <section class="section scholarships-section" id="scholarships">
+  <!-- ════════════════════ SCHOLARSHIPS ════════════════════ -->
+  <section id="scholarships" class="section scholarships-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">📚 Browse & Discover</span>
-        <h2 class="section-title">All Scholarships</h2>
-        <p class="section-subtitle">Government and private scholarships unified in one dashboard</p>
+        <span class="section-tag">🎓 Scholarships</span>
+        <h2>Browse Scholarships</h2>
+        <p>Government and private scholarships with step-by-step application guidance.</p>
       </div>
 
       <!-- Search & Filters -->
-      <div class="filters-wrapper">
-        <div class="search-bar">
+      <div class="toolbar">
+        <div class="search-box">
           <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="searchInput" placeholder="Search scholarships by name, eligibility..." autocomplete="off" />
+          <input type="text" id="searchInput" placeholder="Search scholarships…" autocomplete="off" />
         </div>
-        <div class="filter-row">
-          <div class="filter-group">
-            <label class="filter-label">Type</label>
-            <div class="filter-buttons" id="typeFilter">
-              <button class="filter-btn active" data-filter="all">All</button>
-              <button class="filter-btn" data-filter="Government">Government</button>
-              <button class="filter-btn" data-filter="Private">Private</button>
-            </div>
-          </div>
-          <div class="filter-group">
-            <label class="filter-label">Field of Study</label>
-            <select id="fieldFilter" class="filter-select">
-              <option value="all">All Fields</option>
-              <option value="Engineering">Engineering</option>
-              <option value="Medical">Medical</option>
-              <option value="Arts">Arts</option>
-              <option value="Science">Science</option>
-              <option value="Commerce">Commerce</option>
-              <option value="Law">Law</option>
-              <option value="General">General</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <label class="filter-label">Deadline</label>
-            <select id="deadlineFilter" class="filter-select">
-              <option value="all">All</option>
-              <option value="upcoming">Upcoming</option>
-              <option value="urgent">Urgent (≤ 7 days)</option>
-              <option value="expired">Expired</option>
-            </select>
-          </div>
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="government">Government</button>
+          <button class="filter-btn" data-filter="private">Private</button>
+          <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+          <button class="filter-btn" data-filter="expired">Expired</button>
         </div>
       </div>
 
-      <!-- Results count -->
-      <p class="results-count" id="resultsCount"></p>
-
-      <!-- Scholarship Cards Grid -->
+      <!-- Cards Grid -->
       <div class="cards-grid" id="cardsGrid">
-        <!-- Cards will be injected by script.js -->
+        <!-- Populated by JS -->
       </div>
-
-      <p class="no-results" id="noResults" style="display:none;">😕 No scholarships match your criteria. Try adjusting the filters.</p>
+      <p class="no-results" id="noResults" style="display:none;">No scholarships match your search.</p>
     </div>
   </section>
 
-  <!-- ===================== GUIDANCE ===================== -->
-  <section class="section guidance-section" id="guidance">
+  <!-- ════════════════ SCHOLARSHIP MODAL ════════════════ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="scholarshipModal" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+      <div class="modal-header">
+        <span class="modal-type-badge" id="modalType"></span>
+        <h2 id="modalTitle"></h2>
+        <p id="modalEligibility"></p>
+        <div class="modal-deadline-row">
+          <span class="modal-deadline-badge" id="modalDeadline"></span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <!-- Flowchart -->
+        <h3>🧭 Application Process</h3>
+        <div class="flowchart" id="modalFlowchart">
+          <!-- Generated by JS -->
+        </div>
+
+        <!-- Documents -->
+        <h3>📄 Required Documents</h3>
+        <ul class="doc-checklist" id="modalDocs">
+          <!-- Generated by JS -->
+        </ul>
+
+        <!-- Apply -->
+        <div class="modal-apply">
+          <a href="#" id="modalApplyLink" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">Apply Now →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════ TASK PLANNER ════════════════════ -->
+  <section id="planner" class="section planner-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">📝 Step-by-Step</span>
-        <h2 class="section-title">How to Apply</h2>
-        <p class="section-subtitle">Follow these simple steps to submit your scholarship application</p>
+        <span class="section-tag">📋 Study Buddy</span>
+        <h2>Task Planner</h2>
+        <p>Organize your study schedule and track progress.</p>
       </div>
-      <div class="steps-container">
 
-        <div class="step-card">
-          <div class="step-number">1</div>
-          <div class="step-icon">🔍</div>
-          <h3>Research &amp; Discover</h3>
-          <p>Browse our scholarship listings and use filters to find opportunities that match your profile, field of study, and eligibility.</p>
+      <div class="planner-layout">
+        <!-- Add Task -->
+        <div class="planner-card add-task-card">
+          <h3>Add New Task</h3>
+          <form id="taskForm">
+            <input type="text" id="taskInput" placeholder="e.g. Complete scholarship essay…" required />
+            <div class="task-form-row">
+              <select id="taskPriority">
+                <option value="low">Low Priority</option>
+                <option value="medium" selected>Medium Priority</option>
+                <option value="high">High Priority</option>
+              </select>
+              <button type="submit" class="btn btn-primary">Add Task</button>
+            </div>
+          </form>
         </div>
 
-        <div class="step-connector"><svg viewBox="0 0 40 20"><path d="M0 10 H40" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
-
-        <div class="step-card">
-          <div class="step-number">2</div>
-          <div class="step-icon">✅</div>
-          <h3>Check Eligibility</h3>
-          <p>Read the eligibility criteria carefully. Ensure you meet the academic, financial, and other requirements before applying.</p>
+        <!-- Progress -->
+        <div class="planner-card progress-card">
+          <h3>📊 Progress</h3>
+          <div class="progress-ring-wrapper">
+            <svg class="progress-ring" viewBox="0 0 120 120">
+              <circle class="progress-ring-bg" cx="60" cy="60" r="52" />
+              <circle class="progress-ring-fill" id="progressRing" cx="60" cy="60" r="52" />
+            </svg>
+            <span class="progress-percent" id="progressPercent">0%</span>
+          </div>
+          <div class="progress-stats">
+            <span><strong id="completedCount">0</strong> completed</span>
+            <span><strong id="totalCount">0</strong> total</span>
+          </div>
         </div>
 
-        <div class="step-connector"><svg viewBox="0 0 40 20"><path d="M0 10 H40" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
-
-        <div class="step-card">
-          <div class="step-number">3</div>
-          <div class="step-icon">📄</div>
-          <h3>Gather Documents</h3>
-          <p>Collect all required documents such as mark sheets, income certificates, ID proofs, and recommendation letters.</p>
+        <!-- Task List -->
+        <div class="planner-card tasks-list-card">
+          <div class="tasks-header">
+            <h3>Your Tasks</h3>
+            <button class="btn btn-danger btn-sm" id="clearCompleted">Clear Completed</button>
+          </div>
+          <ul class="task-list" id="taskList">
+            <!-- Populated by JS -->
+          </ul>
+          <p class="empty-tasks" id="emptyTasks">No tasks yet. Add one above! ✍️</p>
         </div>
-
-        <div class="step-connector"><svg viewBox="0 0 40 20"><path d="M0 10 H40" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
-
-        <div class="step-card">
-          <div class="step-number">4</div>
-          <div class="step-icon">🖊️</div>
-          <h3>Fill &amp; Submit</h3>
-          <p>Complete the application form on the official portal. Double-check all entries and upload the necessary documents.</p>
-        </div>
-
-        <div class="step-connector"><svg viewBox="0 0 40 20"><path d="M0 10 H40" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
-
-        <div class="step-card">
-          <div class="step-number">5</div>
-          <div class="step-icon">📬</div>
-          <h3>Track &amp; Follow Up</h3>
-          <p>Save your application reference number. Monitor your email and the scholarship portal for updates on your application status.</p>
-        </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ===================== DOCUMENTS ===================== -->
-  <section class="section documents-section" id="documents">
+  <!-- ════════════════════ DOCUMENTS ════════════════════ -->
+  <section id="documents" class="section documents-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">🗂️ Be Prepared</span>
-        <h2 class="section-title">Document Checklist</h2>
-        <p class="section-subtitle">Keep these documents ready before you start your application</p>
+        <span class="section-tag">📚 Preparation</span>
+        <h2>Document Guide</h2>
+        <p>Essential documents and tips to strengthen your scholarship applications.</p>
       </div>
+
       <div class="docs-grid">
-
         <div class="doc-card">
-          <div class="doc-icon">🆔</div>
-          <h3>Identity Proof</h3>
-          <p>Aadhaar Card, PAN Card, Voter ID, or Passport</p>
-          <span class="doc-tooltip" data-tip="Government-issued photo ID is mandatory for all scholarship applications.">ℹ️ Info</span>
+          <div class="doc-icon">🪪</div>
+          <h4>ID Proof</h4>
+          <p>Aadhaar Card, PAN Card, or Voter ID — keep scanned copies (PDF &amp; JPEG) under 500KB.</p>
         </div>
-
-        <div class="doc-card">
-          <div class="doc-icon">📊</div>
-          <h3>Academic Records</h3>
-          <p>Mark sheets from 10th, 12th, and latest semester</p>
-          <span class="doc-tooltip" data-tip="Self-attested photocopies are usually accepted. Some require originals for verification.">ℹ️ Info</span>
-        </div>
-
         <div class="doc-card">
           <div class="doc-icon">💰</div>
-          <h3>Income Certificate</h3>
-          <p>Annual family income certificate from a competent authority</p>
-          <span class="doc-tooltip" data-tip="Usually issued by Tehsildar or SDM office. Must be from the current financial year.">ℹ️ Info</span>
+          <h4>Income Certificate</h4>
+          <p>Issued by your local Tahsildar or SDM office. Usually valid for 1 year from issue date.</p>
         </div>
-
-        <div class="doc-card">
-          <div class="doc-icon">🏦</div>
-          <h3>Bank Details</h3>
-          <p>Passbook copy or cancelled cheque with IFSC code</p>
-          <span class="doc-tooltip" data-tip="The bank account must be in the student's name and linked with Aadhaar for direct benefit transfer.">ℹ️ Info</span>
-        </div>
-
-        <div class="doc-card">
-          <div class="doc-icon">📸</div>
-          <h3>Passport Photo</h3>
-          <p>Recent passport-size photograph (white background)</p>
-          <span class="doc-tooltip" data-tip="Typically JPEG format, under 200KB. Some portals require specific dimensions like 200x230 pixels.">ℹ️ Info</span>
-        </div>
-
         <div class="doc-card">
           <div class="doc-icon">📝</div>
-          <h3>Domicile Certificate</h3>
-          <p>Proof of residence / domicile from your state</p>
-          <span class="doc-tooltip" data-tip="Required for state-specific scholarships. Apply at your local government office or through the state portal.">ℹ️ Info</span>
+          <h4>Academic Records</h4>
+          <p>Mark sheets of last 2 years, bonafide certificate from your institution, and migration certificate if applicable.</p>
         </div>
-
         <div class="doc-card">
-          <div class="doc-icon">🏫</div>
-          <h3>Admission / Enrollment</h3>
-          <p>College admission letter or enrollment certificate</p>
-          <span class="doc-tooltip" data-tip="Bonafide student certificate from your institution confirming current enrollment status.">ℹ️ Info</span>
+          <div class="doc-icon">🏦</div>
+          <h4>Bank Details</h4>
+          <p>Passbook front page or cancelled cheque with your name. Ensure the account is linked to Aadhaar for DBT.</p>
         </div>
-
         <div class="doc-card">
-          <div class="doc-icon">✉️</div>
-          <h3>Recommendation Letter</h3>
-          <p>Letter from a teacher or mentor (if required)</p>
-          <span class="doc-tooltip" data-tip="Mostly required for merit-based and private scholarships. Should be on institution letterhead.">ℹ️ Info</span>
+          <div class="doc-icon">📷</div>
+          <h4>Passport Photo</h4>
+          <p>Recent passport-size photo with white background, dimensions 3.5 × 4.5 cm, under 200KB.</p>
         </div>
+        <div class="doc-card">
+          <div class="doc-icon">📜</div>
+          <h4>Caste / Category Certificate</h4>
+          <p>Required for reservation-based scholarships. Must be issued by a competent authority (SDM/Collector).</p>
+        </div>
+      </div>
 
+      <!-- Tips -->
+      <div class="tips-card">
+        <h3>💡 Tips for a Strong Application</h3>
+        <div class="tips-grid">
+          <div class="tip">
+            <span class="tip-num">01</span>
+            <div>
+              <strong>Start Early</strong>
+              <p>Begin gathering documents 2–3 months before deadlines. Government offices may take time.</p>
+            </div>
+          </div>
+          <div class="tip">
+            <span class="tip-num">02</span>
+            <div>
+              <strong>Keep Digital Copies</strong>
+              <p>Scan everything in both PDF and JPEG. Use a cloud drive for backups.</p>
+            </div>
+          </div>
+          <div class="tip">
+            <span class="tip-num">03</span>
+            <div>
+              <strong>Double-Check Details</strong>
+              <p>Ensure names, dates, and numbers match across all documents — mismatches cause rejections.</p>
+            </div>
+          </div>
+          <div class="tip">
+            <span class="tip-num">04</span>
+            <div>
+              <strong>Write a Personal Statement</strong>
+              <p>Many scholarships ask for an essay. Draft early, get feedback, and revise at least twice.</p>
+            </div>
+          </div>
+          <div class="tip">
+            <span class="tip-num">05</span>
+            <div>
+              <strong>Track Every Application</strong>
+              <p>Use the Task Planner above to track deadlines and submission statuses.</p>
+            </div>
+          </div>
+          <div class="tip">
+            <span class="tip-num">06</span>
+            <div>
+              <strong>Follow Up</strong>
+              <p>After submitting, check the portal regularly for verification requests or status updates.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== FOOTER ===================== -->
+  <!-- ════════════════════ FOOTER ════════════════════ -->
   <footer class="footer">
-    <div class="container footer-content">
+    <div class="container footer-inner">
       <div class="footer-brand">
         <span class="logo-icon">🎓</span>
-        <span class="logo-text">Scholar<span class="logo-accent">Path</span></span>
-        <p class="footer-tagline">Empowering students to access scholarships with ease.</p>
+        <span class="logo-text">Study<span class="logo-accent">Hub</span></span>
+        <p>Empowering students to discover opportunities and achieve academic excellence.</p>
       </div>
       <div class="footer-links">
-        <a href="#home">Home</a>
         <a href="#scholarships">Scholarships</a>
-        <a href="#guidance">Guidance</a>
+        <a href="#planner">Task Planner</a>
         <a href="#documents">Documents</a>
       </div>
-      <p class="footer-copy">&copy; 2026 ScholarPath. All rights reserved.</p>
+      <p class="footer-copy">&copy; 2026 StudyHub. Built for students, by students.</p>
     </div>
   </footer>
-
-  <!-- Tooltip popup -->
-  <div class="tooltip-popup" id="tooltipPopup"></div>
 
   <script src="script.js"></script>
 </body>
