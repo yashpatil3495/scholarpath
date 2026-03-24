@@ -1,384 +1,490 @@
-/* ============================================================
-   ScholarPath — script.js
-   Scholarship data, search, filters, deadline highlighting
-   ============================================================ */
+/* ╔══════════════════════════════════════════╗
+   ║  StudyHub — Script                       ║
+   ╚══════════════════════════════════════════╝ */
 
-// ── Scholarship Data ───────────────────────────────────────
+// ── SCHOLARSHIP DATA ────────────────────────
 const scholarships = [
   {
-    name: "National Scholarship Portal (NSP) — Pre-Matric",
-    type: "Government",
-    field: "General",
-    eligibility: "Students from Class 1 to 10 belonging to minority communities with family income below ₹1 lakh per annum.",
-    deadline: "2026-04-10",
-    link: "#"
+    id: 1,
+    name: "National Scholarship Portal (NSP)",
+    type: "government",
+    eligibility: "Indian students from Class 1 to Ph.D. with family income below ₹2.5 lakh/year.",
+    deadline: "2026-04-15",
+    link: "https://scholarships.gov.in",
+    steps: [
+      { icon: "📝", label: "Register on NSP" },
+      { icon: "📄", label: "Fill Application" },
+      { icon: "📎", label: "Upload Documents" },
+      { icon: "✅", label: "Institute Verifies" },
+      { icon: "🏛️", label: "Dept. Approval" },
+      { icon: "💰", label: "Disbursement" }
+    ],
+    documents: ["Aadhaar Card", "Income Certificate", "Previous Year Mark Sheet", "Bank Passbook", "Passport Photo", "Caste Certificate (if applicable)"]
   },
   {
-    name: "Central Sector Scheme of Scholarships",
-    type: "Government",
-    field: "General",
-    eligibility: "Students who scored above 80th percentile in Class 12 board exams. Family income ≤ ₹8 lakh/year.",
-    deadline: "2026-04-02",
-    link: "#"
+    id: 2,
+    name: "INSPIRE Scholarship (DST)",
+    type: "government",
+    eligibility: "Top 1% students in Class 12 board exams pursuing BSc/BS/Int. MSc courses.",
+    deadline: "2026-05-31",
+    link: "https://online-inspire.gov.in",
+    steps: [
+      { icon: "🏅", label: "Check Eligibility" },
+      { icon: "📝", label: "Online Registration" },
+      { icon: "📄", label: "Fill Details" },
+      { icon: "📎", label: "Upload Documents" },
+      { icon: "✅", label: "Submit & Verify" },
+      { icon: "💰", label: "Receive ₹80,000/yr" }
+    ],
+    documents: ["Class 12 Mark Sheet", "Board Merit Proof", "College Admission Letter", "Aadhaar Card", "Bank Details", "Passport Photo"]
   },
   {
-    name: "AICTE Pragati Scholarship for Girls",
-    type: "Government",
-    field: "Engineering",
-    eligibility: "Girl students admitted to 1st year of AICTE-approved degree/diploma programs. Family income ≤ ₹8 lakh.",
-    deadline: "2026-05-15",
-    link: "#"
-  },
-  {
-    name: "INSPIRE Scholarship (SHE)",
-    type: "Government",
-    field: "Science",
-    eligibility: "Top 1% in Class 12 board exams pursuing B.Sc. / Integrated M.Sc. in natural & basic sciences.",
-    deadline: "2026-03-28",
-    link: "#"
-  },
-  {
-    name: "Post-Matric Scholarship for SC Students",
-    type: "Government",
-    field: "General",
-    eligibility: "Scheduled Caste students studying in Class 11 and above. Family income ≤ ₹2.5 lakh/year.",
-    deadline: "2026-04-20",
-    link: "#"
-  },
-  {
-    name: "Reliance Foundation Undergraduate Scholarship",
-    type: "Private",
-    field: "Engineering",
-    eligibility: "First-year students in top engineering colleges across India. Based on JEE/entrance rank and merit.",
+    id: 3,
+    name: "Pragati Scholarship (AICTE)",
+    type: "government",
+    eligibility: "Girl students admitted to AICTE-approved colleges with family income ≤ ₹8 lakh/year.",
     deadline: "2026-03-30",
-    link: "#"
+    link: "https://www.aicte-india.org/schemes/students-development-schemes/pragati-scholarship",
+    steps: [
+      { icon: "📝", label: "Apply on AICTE Portal" },
+      { icon: "📄", label: "Fill Form" },
+      { icon: "📎", label: "Upload Docs" },
+      { icon: "🏫", label: "Institute Approval" },
+      { icon: "✅", label: "AICTE Verification" },
+      { icon: "💰", label: "₹50,000/yr Grant" }
+    ],
+    documents: ["10th & 12th Mark Sheet", "Income Certificate", "Admission Letter", "Aadhaar Card", "Bank Details", "Passport Photo"]
   },
   {
+    id: 4,
     name: "Tata Trusts Scholarship",
-    type: "Private",
-    field: "General",
-    eligibility: "Undergraduate students from low-income families (≤ ₹4 lakh). Merit-based selection.",
-    deadline: "2026-06-01",
-    link: "#"
-  },
-  {
-    name: "HDFC Educational Crisis Scholarship",
-    type: "Private",
-    field: "General",
-    eligibility: "Students facing personal/family crisis affecting education continuation. Any course, any year.",
-    deadline: "2026-03-25",
-    link: "#"
-  },
-  {
-    name: "Narotam Sekhsaria Scholarship",
-    type: "Private",
-    field: "Engineering",
-    eligibility: "Students pursuing postgraduate studies at premier Indian institutions (IITs, IIMs, IISc, etc.).",
-    deadline: "2026-04-30",
-    link: "#"
-  },
-  {
-    name: "L'Oréal India — For Young Women in Science",
-    type: "Private",
-    field: "Science",
-    eligibility: "Women researchers (age ≤ 35) holding PhD in life & physical sciences with exceptional publication record.",
-    deadline: "2026-05-20",
-    link: "#"
-  },
-  {
-    name: "KVPY Fellowship (Kishore Vaigyanik)",
-    type: "Government",
-    field: "Science",
-    eligibility: "Students studying in XI (SA), XII (SX), or 1st-year B.Sc. (SB) with strong aptitude in basic sciences.",
-    deadline: "2026-07-15",
-    link: "#"
-  },
-  {
-    name: "Kotak Kanya Scholarship",
-    type: "Private",
-    field: "General",
-    eligibility: "Meritorious girl students from underprivileged backgrounds enrolling in professional courses. Family income ≤ ₹3 lakh.",
-    deadline: "2026-04-14",
-    link: "#"
-  },
-  {
-    name: "Maulana Azad National Fellowship",
-    type: "Government",
-    field: "General",
-    eligibility: "Minority community students pursuing M.Phil / Ph.D. programmes in recognized universities.",
-    deadline: "2026-03-26",
-    link: "#"
-  },
-  {
-    name: "Buddy4Study India STEM Scholarship",
-    type: "Private",
-    field: "Engineering",
-    eligibility: "Students pursuing UG/PG in STEM fields from recognized colleges. Family income ≤ ₹6 lakh/year.",
-    deadline: "2026-04-08",
-    link: "#"
-  },
-  {
-    name: "Indira Gandhi Scholarship for Single Girl Child",
-    type: "Government",
-    field: "General",
-    eligibility: "Single girl child of the family, pursuing PG programs in accredited colleges (non-professional courses).",
-    deadline: "2026-05-01",
-    link: "#"
-  },
-  {
-    name: "Azim Premji Foundation Fellowship",
-    type: "Private",
-    field: "Arts",
-    eligibility: "Graduates with minimum 2 years of work/volunteer experience in social development sector.",
+    type: "private",
+    eligibility: "Students from low-income families pursuing graduation or post-graduation.",
     deadline: "2026-06-15",
-    link: "#"
+    link: "https://www.tatatrusts.org",
+    steps: [
+      { icon: "🔍", label: "Check Eligibility" },
+      { icon: "📝", label: "Register Online" },
+      { icon: "📄", label: "Submit Application" },
+      { icon: "📎", label: "Upload Documents" },
+      { icon: "📞", label: "Interview (if selected)" },
+      { icon: "💰", label: "Scholarship Awarded" }
+    ],
+    documents: ["Income Certificate", "Academic Transcripts", "Admission Proof", "ID Proof", "Bank Account Details", "Passport Photo"]
   },
   {
-    name: "Prime Minister's Scholarship (PMSS) — WARB",
-    type: "Government",
-    field: "Medical",
-    eligibility: "Wards/widows of ex-servicemen & ex-Coast Guard personnel for professional degree courses (MBBS, BDS, BE, etc.).",
-    deadline: "2026-04-25",
-    link: "#"
+    id: 5,
+    name: "Reliance Foundation Scholarship",
+    type: "private",
+    eligibility: "Undergraduate students in STEM, humanities, or commerce with strong academics.",
+    deadline: "2026-04-10",
+    link: "https://www.reliancefoundation.org/scholarships",
+    steps: [
+      { icon: "📝", label: "Online Application" },
+      { icon: "📄", label: "Academic Details" },
+      { icon: "🎯", label: "Aptitude Test" },
+      { icon: "📞", label: "Personal Interview" },
+      { icon: "✅", label: "Selection" },
+      { icon: "💰", label: "Up to ₹2 Lakh/yr" }
+    ],
+    documents: ["10th & 12th Mark Sheet", "College ID", "Income Proof", "Aadhaar Card", "Bank Details", "Recommendation Letter"]
   },
   {
-    name: "Bharti Foundation Scholarship (Commerce)",
-    type: "Private",
-    field: "Commerce",
-    eligibility: "Class 12 Commerce stream students transitioning to B.Com / BBA / CA from Bharti Foundation schools. Merit-based.",
-    deadline: "2026-05-10",
-    link: "#"
+    id: 6,
+    name: "Post-Matric Scholarship (MoSJE)",
+    type: "government",
+    eligibility: "SC/ST/OBC students studying post-matric with family income ≤ ₹2.5 lakh/year.",
+    deadline: "2026-04-01",
+    link: "https://scholarships.gov.in",
+    steps: [
+      { icon: "📝", label: "Register on NSP" },
+      { icon: "📄", label: "Fill Application" },
+      { icon: "📎", label: "Upload Documents" },
+      { icon: "🏫", label: "Institute Verifies" },
+      { icon: "🏛️", label: "State Review" },
+      { icon: "💰", label: "Fee Reimbursement" }
+    ],
+    documents: ["Caste Certificate", "Income Certificate", "Last Year Mark Sheet", "Fee Receipt", "Bank Details", "Passport Photo"]
   },
   {
-    name: "National Law University Scholarship",
-    type: "Government",
-    field: "Law",
-    eligibility: "Students admitted to 5-year integrated law programmes at NLUs through CLAT. SC/ST/EWS category preferred.",
-    deadline: "2026-04-18",
-    link: "#"
+    id: 7,
+    name: "Sitaram Jindal Foundation Scholarship",
+    type: "private",
+    eligibility: "Meritorious students across India with financial need, Class 11 onwards.",
+    deadline: "2026-07-31",
+    link: "https://www.sitaramjindalfoundation.org",
+    steps: [
+      { icon: "📝", label: "Download Form" },
+      { icon: "📄", label: "Fill & Attach Docs" },
+      { icon: "📮", label: "Post Application" },
+      { icon: "🔍", label: "Foundation Reviews" },
+      { icon: "✅", label: "Selection" },
+      { icon: "💰", label: "Monthly Stipend" }
+    ],
+    documents: ["Academic Records", "Income Certificate", "ID Proof", "Bank Details", "Passport Photo", "Recommendation from Institute"]
   },
   {
-    name: "Legrand Empowering Scholarship – Medical",
-    type: "Private",
-    field: "Medical",
-    eligibility: "Female students pursuing MBBS/BDS from govt. medical colleges. Family income ≤ ₹5 lakh. Strong academic record.",
-    deadline: "2026-03-29",
-    link: "#"
+    id: 8,
+    name: "Kishore Vaigyanik Protsahan Yojana (KVPY)",
+    type: "government",
+    eligibility: "Students in Class 11, 12, or 1st year UG in basic science with strong aptitude.",
+    deadline: "2026-08-20",
+    link: "https://kvpy.iisc.ac.in",
+    steps: [
+      { icon: "📝", label: "Online Registration" },
+      { icon: "🎯", label: "Aptitude Test" },
+      { icon: "📞", label: "Interview" },
+      { icon: "✅", label: "Merit List" },
+      { icon: "🎓", label: "Fellowship" },
+      { icon: "💰", label: "₹5,000–7,000/mo" }
+    ],
+    documents: ["Class 10 & 12 Mark Sheets", "School ID", "Aadhaar Card", "Passport Photo", "Bank Details"]
+  },
+  {
+    id: 9,
+    name: "Wipro Education Fellowship",
+    type: "private",
+    eligibility: "Engineering graduates interested in education leadership; 2-year fellowship program.",
+    deadline: "2026-03-27",
+    link: "https://www.wipro.com/content/nextweb/en/social-initiatives.html",
+    steps: [
+      { icon: "📝", label: "Apply Online" },
+      { icon: "📄", label: "Submit Resume & SOP" },
+      { icon: "🎯", label: "Assessment Round" },
+      { icon: "📞", label: "Panel Interview" },
+      { icon: "✅", label: "Offer" },
+      { icon: "🎓", label: "Join Fellowship" }
+    ],
+    documents: ["Degree Certificate", "Resume/CV", "Statement of Purpose", "ID Proof", "References", "Passport Photo"]
   }
 ];
 
-// ── DOM References ─────────────────────────────────────────
-const cardsGrid       = document.getElementById('cardsGrid');
-const searchInput     = document.getElementById('searchInput');
-const typeFilter      = document.getElementById('typeFilter');
-const fieldFilter     = document.getElementById('fieldFilter');
-const deadlineFilter  = document.getElementById('deadlineFilter');
-const resultsCount    = document.getElementById('resultsCount');
-const noResults       = document.getElementById('noResults');
-const navbar          = document.getElementById('navbar');
-const navToggle       = document.getElementById('navToggle');
-const navLinks        = document.getElementById('navLinks');
-const tooltipPopup    = document.getElementById('tooltipPopup');
+// ── DOM REFERENCES ──────────────────────────
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
 
-// ── Today's date ───────────────────────────────────────────
-const today = new Date();
-today.setHours(0, 0, 0, 0);
+const cardsGrid = $("#cardsGrid");
+const searchInput = $("#searchInput");
+const filterBtns = $$(".filter-btn");
+const noResults = $("#noResults");
 
-// ── Helpers ────────────────────────────────────────────────
+const modalOverlay = $("#modalOverlay");
+const modalClose = $("#modalClose");
+const modalTitle = $("#modalTitle");
+const modalType = $("#modalType");
+const modalEligibility = $("#modalEligibility");
+const modalDeadline = $("#modalDeadline");
+const modalFlowchart = $("#modalFlowchart");
+const modalDocs = $("#modalDocs");
+const modalApplyLink = $("#modalApplyLink");
+
+const taskForm = $("#taskForm");
+const taskInput = $("#taskInput");
+const taskPriority = $("#taskPriority");
+const taskListEl = $("#taskList");
+const emptyTasks = $("#emptyTasks");
+const clearCompletedBtn = $("#clearCompleted");
+const progressRing = $("#progressRing");
+const progressPercent = $("#progressPercent");
+const completedCount = $("#completedCount");
+const totalCount = $("#totalCount");
+
+const navbar = $("#navbar");
+const hamburger = $("#hamburger");
+const navLinks = $("#navLinks");
+
+// ── UTILITY ─────────────────────────────────
+const TODAY = new Date();
+TODAY.setHours(0, 0, 0, 0);
+
 function daysUntil(dateStr) {
-  const target = new Date(dateStr);
-  target.setHours(0, 0, 0, 0);
-  return Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+  const d = new Date(dateStr);
+  d.setHours(0, 0, 0, 0);
+  return Math.ceil((d - TODAY) / (1000 * 60 * 60 * 24));
 }
 
 function formatDate(dateStr) {
-  return new Date(dateStr).toLocaleDateString('en-IN', {
-    day: 'numeric', month: 'short', year: 'numeric'
-  });
+  return new Date(dateStr).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
 
-// ── Active type filter ─────────────────────────────────────
-let activeType = 'all';
+// ── RENDER CARDS ────────────────────────────
+let activeFilter = "all";
 
-// ── Render Cards ───────────────────────────────────────────
-function renderCards(data) {
-  cardsGrid.innerHTML = '';
+function renderCards() {
+  const query = searchInput.value.toLowerCase().trim();
+  let filtered = scholarships.filter((s) => {
+    const matchesSearch = s.name.toLowerCase().includes(query) || s.eligibility.toLowerCase().includes(query);
+    if (!matchesSearch) return false;
 
-  if (data.length === 0) {
-    noResults.style.display = 'block';
-    resultsCount.textContent = '';
-    return;
-  }
+    if (activeFilter === "all") return true;
+    if (activeFilter === "government") return s.type === "government";
+    if (activeFilter === "private") return s.type === "private";
+    if (activeFilter === "upcoming") return daysUntil(s.deadline) >= 0;
+    if (activeFilter === "expired") return daysUntil(s.deadline) < 0;
+    return true;
+  });
 
-  noResults.style.display = 'none';
-  resultsCount.textContent = `Showing ${data.length} scholarship${data.length !== 1 ? 's' : ''}`;
+  cardsGrid.innerHTML = "";
+  noResults.style.display = filtered.length === 0 ? "block" : "none";
 
-  data.forEach((s, i) => {
+  filtered.forEach((s, i) => {
     const days = daysUntil(s.deadline);
     const isUrgent = days >= 0 && days <= 7;
     const isExpired = days < 0;
 
-    const card = document.createElement('div');
-    card.className = 'scholarship-card' + (isUrgent ? ' urgent' : '');
-    card.style.animationDelay = `${i * .05}s`;
-
+    const card = document.createElement("div");
+    card.className = `scholarship-card ${s.type} ${isUrgent ? "urgent" : ""}`;
+    card.style.animationDelay = `${i * 0.07}s`;
     card.innerHTML = `
-      ${isUrgent ? '<span class="urgent-badge">⏰ Urgent</span>' : ''}
-      <div class="card-header">
-        <h3 class="card-title">${s.name}</h3>
-        <span class="card-type ${s.type.toLowerCase()}">${s.type}</span>
-      </div>
-      <span class="card-field">${s.field}</span>
+      <span class="card-type ${s.type}">${s.type}</span>
+      <h3 class="card-title">${s.name}</h3>
       <p class="card-eligibility">${s.eligibility}</p>
       <div class="card-footer">
-        <span class="card-deadline ${isUrgent ? 'urgent-deadline' : ''} ${isExpired ? 'expired-deadline' : ''}">
-          ${isExpired ? 'Expired' : (isUrgent ? days + 'd left' : formatDate(s.deadline))}
+        <span class="card-deadline ${isUrgent ? "urgent-text" : ""} ${isExpired ? "urgent-text" : ""}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          ${isExpired ? "Expired" : isUrgent ? days + "d left!" : formatDate(s.deadline)}
         </span>
-        <button class="card-apply-btn ${isExpired ? 'expired-btn' : ''}" onclick="${isExpired ? '' : `window.open('${s.link}','_blank')`}">
-          ${isExpired ? 'Closed' : 'Apply Now →'}
-        </button>
-      </div>
-    `;
+        <div class="card-actions">
+          <button class="btn-details" onclick="openModal(${s.id})">View Details</button>
+          <a href="${s.link}" target="_blank" rel="noopener noreferrer" class="btn-apply-sm">Apply</a>
+        </div>
+      </div>`;
     cardsGrid.appendChild(card);
   });
+
+  // Trigger scroll-based reveal
+  observeCards();
 }
 
-// ── Filter Logic ───────────────────────────────────────────
-function applyFilters() {
-  const query    = searchInput.value.trim().toLowerCase();
-  const field    = fieldFilter.value;
-  const deadline = deadlineFilter.value;
+// ── MODAL ────────────────────────────────────
+function openModal(id) {
+  const s = scholarships.find((sc) => sc.id === id);
+  if (!s) return;
 
-  let filtered = scholarships.filter(s => {
-    // Type filter
-    if (activeType !== 'all' && s.type !== activeType) return false;
+  modalTitle.textContent = s.name;
+  modalType.textContent = s.type;
+  modalType.className = `modal-type-badge ${s.type}`;
+  modalEligibility.textContent = s.eligibility;
 
-    // Field filter
-    if (field !== 'all' && s.field !== field) return false;
+  const days = daysUntil(s.deadline);
+  const isUrgent = days >= 0 && days <= 7;
+  modalDeadline.textContent = days < 0 ? `Deadline passed (${formatDate(s.deadline)})` : `Deadline: ${formatDate(s.deadline)} (${days} days left)`;
+  modalDeadline.className = `modal-deadline-badge ${isUrgent ? "urgent" : ""}`;
 
-    // Deadline filter
-    const days = daysUntil(s.deadline);
-    if (deadline === 'upcoming' && days < 0) return false;
-    if (deadline === 'urgent'   && (days < 0 || days > 7)) return false;
-    if (deadline === 'expired'  && days >= 0) return false;
+  // Flowchart
+  modalFlowchart.innerHTML = s.steps
+    .map(
+      (step, i) =>
+        `<div class="flow-step">
+          <div class="flow-box"><span class="step-icon">${step.icon}</span>${step.label}</div>
+          ${i < s.steps.length - 1 ? '<span class="flow-arrow">→</span>' : ""}
+        </div>`
+    )
+    .join("");
 
-    // Search
-    if (query) {
-      const haystack = (s.name + ' ' + s.eligibility + ' ' + s.type + ' ' + s.field).toLowerCase();
-      if (!haystack.includes(query)) return false;
-    }
+  // Documents
+  modalDocs.innerHTML = s.documents
+    .map((doc) => `<li><span class="check-icon">✓</span>${doc}</li>`)
+    .join("");
 
-    return true;
-  });
+  modalApplyLink.href = s.link;
 
-  // Sort: urgent first, then by deadline ascending
-  filtered.sort((a, b) => {
-    const dA = daysUntil(a.deadline);
-    const dB = daysUntil(b.deadline);
-    // Expired items go to the end
-    if (dA < 0 && dB >= 0) return 1;
-    if (dB < 0 && dA >= 0) return -1;
-    return dA - dB;
-  });
-
-  renderCards(filtered);
+  modalOverlay.classList.add("active");
+  document.body.style.overflow = "hidden";
 }
 
-// ── Type filter buttons ────────────────────────────────────
-typeFilter.addEventListener('click', (e) => {
-  const btn = e.target.closest('.filter-btn');
-  if (!btn) return;
-  typeFilter.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  activeType = btn.dataset.filter;
-  applyFilters();
+function closeModal() {
+  modalOverlay.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+modalClose.addEventListener("click", closeModal);
+modalOverlay.addEventListener("click", (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
 });
 
-// ── Other filters ──────────────────────────────────────────
-searchInput.addEventListener('input', applyFilters);
-fieldFilter.addEventListener('change', applyFilters);
-deadlineFilter.addEventListener('change', applyFilters);
+// ── SEARCH & FILTERS ────────────────────────
+searchInput.addEventListener("input", renderCards);
 
-// ── Navbar scroll effect ───────────────────────────────────
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 30);
+filterBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    filterBtns.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeFilter = btn.dataset.filter;
+    renderCards();
+  });
 });
 
-// ── Mobile nav toggle ──────────────────────────────────────
-navToggle.addEventListener('click', () => {
-  navToggle.classList.toggle('open');
-  navLinks.classList.toggle('open');
+// ── TASK PLANNER (localStorage) ─────────────
+const STORAGE_KEY = "studyhub_tasks";
+
+function loadTasks() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveTasks(tasks) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+}
+
+function renderTasks() {
+  const tasks = loadTasks();
+  taskListEl.innerHTML = "";
+  emptyTasks.style.display = tasks.length === 0 ? "block" : "none";
+
+  tasks.forEach((t) => {
+    const li = document.createElement("li");
+    li.className = t.done ? "completed" : "";
+    li.innerHTML = `
+      <div class="task-checkbox ${t.done ? "checked" : ""}" data-id="${t.id}"></div>
+      <span class="task-text">${escapeHtml(t.text)}</span>
+      <span class="task-priority ${t.priority}">${t.priority}</span>
+      <button class="task-delete" data-id="${t.id}" title="Delete task">🗑</button>`;
+    taskListEl.appendChild(li);
+  });
+
+  updateProgress(tasks);
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function updateProgress(tasks) {
+  const total = tasks.length;
+  const done = tasks.filter((t) => t.done).length;
+  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+
+  completedCount.textContent = done;
+  totalCount.textContent = total;
+  progressPercent.textContent = pct + "%";
+
+  const circumference = 2 * Math.PI * 52; // r=52
+  const offset = circumference - (pct / 100) * circumference;
+  progressRing.style.strokeDashoffset = offset;
+}
+
+taskForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = taskInput.value.trim();
+  if (!text) return;
+
+  const tasks = loadTasks();
+  tasks.unshift({ id: Date.now(), text, priority: taskPriority.value, done: false });
+  saveTasks(tasks);
+  renderTasks();
+  taskInput.value = "";
 });
 
-// Close mobile nav on link click
-navLinks.addEventListener('click', (e) => {
-  if (e.target.classList.contains('nav-link')) {
-    navToggle.classList.remove('open');
-    navLinks.classList.remove('open');
+taskListEl.addEventListener("click", (e) => {
+  const checkbox = e.target.closest(".task-checkbox");
+  if (checkbox) {
+    const id = Number(checkbox.dataset.id);
+    const tasks = loadTasks().map((t) => (t.id === id ? { ...t, done: !t.done } : t));
+    saveTasks(tasks);
+    renderTasks();
+    return;
+  }
+
+  const del = e.target.closest(".task-delete");
+  if (del) {
+    const id = Number(del.dataset.id);
+    const tasks = loadTasks().filter((t) => t.id !== id);
+    saveTasks(tasks);
+    renderTasks();
   }
 });
 
-// ── Active nav link highlight ──────────────────────────────
-const sections = document.querySelectorAll('.section, .hero');
-const navLinkEls = document.querySelectorAll('.nav-link');
+clearCompletedBtn.addEventListener("click", () => {
+  const tasks = loadTasks().filter((t) => !t.done);
+  saveTasks(tasks);
+  renderTasks();
+});
 
-const observerOptions = { threshold: 0.25, rootMargin: '-80px 0px 0px 0px' };
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.id;
-      navLinkEls.forEach(l => {
-        l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+// ── NAVBAR ───────────────────────────────────
+window.addEventListener("scroll", () => {
+  navbar.classList.toggle("scrolled", window.scrollY > 30);
+});
+
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("open");
+  navLinks.classList.toggle("open");
+});
+
+// Close mobile menu on link click
+$$(".nav-link").forEach((link) => {
+  link.addEventListener("click", () => {
+    hamburger.classList.remove("open");
+    navLinks.classList.remove("open");
+  });
+});
+
+// Active link highlight on scroll
+const sections = $$("section[id]");
+window.addEventListener("scroll", () => {
+  let current = "";
+  sections.forEach((sec) => {
+    const top = sec.offsetTop - 100;
+    if (window.scrollY >= top) current = sec.id;
+  });
+  $$(".nav-link").forEach((a) => {
+    a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+  });
+});
+
+// ── SCROLL REVEAL (IntersectionObserver) ────
+function observeCards() {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
       });
-    }
+    },
+    { threshold: 0.1 }
+  );
+
+  $$(".scholarship-card, .doc-card, .planner-card, .tip").forEach((el) => {
+    observer.observe(el);
   });
-}, observerOptions);
-
-sections.forEach(s => sectionObserver.observe(s));
-
-// ── Tooltip logic ──────────────────────────────────────────
-document.addEventListener('mouseover', (e) => {
-  const tip = e.target.closest('.doc-tooltip');
-  if (!tip) return;
-  const text = tip.getAttribute('data-tip');
-  tooltipPopup.textContent = text;
-  tooltipPopup.classList.add('visible');
-
-  const rect = tip.getBoundingClientRect();
-  tooltipPopup.style.left = rect.left + 'px';
-  tooltipPopup.style.top  = (rect.top - tooltipPopup.offsetHeight - 8) + 'px';
-});
-
-document.addEventListener('mouseout', (e) => {
-  if (e.target.closest('.doc-tooltip')) {
-    tooltipPopup.classList.remove('visible');
-  }
-});
-
-// ── Animated stat counters ─────────────────────────────────
-function animateCount(el, target) {
-  let current = 0;
-  const step = Math.ceil(target / 30);
-  const interval = setInterval(() => {
-    current += step;
-    if (current >= target) {
-      current = target;
-      clearInterval(interval);
-    }
-    el.textContent = current;
-  }, 40);
 }
 
-// ── Initialize ─────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  // Render all scholarships
-  applyFilters();
+// ── HERO STAT COUNTER ───────────────────────
+function animateCounters() {
+  const gov = scholarships.filter((s) => s.type === "government").length;
+  const priv = scholarships.filter((s) => s.type === "private").length;
+  const total = scholarships.length;
 
-  // Animate hero stats
-  const govCount = scholarships.filter(s => s.type === 'Government').length;
-  const pvtCount = scholarships.filter(s => s.type === 'Private').length;
+  animateNumber($("#statScholarships"), total, 1200);
+  animateNumber($("#statGov"), gov, 1000);
+  animateNumber($("#statPrivate"), priv, 1000);
+}
 
-  animateCount(document.getElementById('statTotal'),   scholarships.length);
-  animateCount(document.getElementById('statGov'),     govCount);
-  animateCount(document.getElementById('statPrivate'), pvtCount);
+function animateNumber(el, target, duration) {
+  let start = 0;
+  const step = (timestamp) => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    el.textContent = Math.floor(progress * target);
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+// ── INIT ─────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  renderCards();
+  renderTasks();
+  animateCounters();
+  observeCards();
 });
